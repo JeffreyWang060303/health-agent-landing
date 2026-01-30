@@ -27,7 +27,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-stack); background-color: var(--bg-color); color: var(--text-primary); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        body { font-family: var(--font-stack); background-color: var(--bg-color); color: var(--text-primary); -webkit-font-smoothing: antialiased; overflow-x: hidden; scroll-behavior: smooth; }
 
         /* Navigation */
         nav {
@@ -51,77 +51,62 @@
 
         /* MAIN PAGE */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 1rem; }
-        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); letter-spacing: -0.04em; margin-bottom: 1.5rem; line-height: 1.1; }
-        .hero p { font-size: 1.4rem; color: var(--text-secondary); max-width: 650px; margin-bottom: 2.5rem; }
+        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); letter-spacing: -0.04em; margin-bottom: 1.5rem; line-height: 1.1; max-width: 900px; }
+        .hero p { font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin-bottom: 2.5rem; line-height: 1.5; }
         
-        .section-padding { padding: 100px 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
-        .card { background: var(--surface-color); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); text-align: left; }
-        
-        /* IPHONE MOCKUP */
+        .section-padding { padding: 120px 2rem; max-width: 1100px; margin: 0 auto; }
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .section-title p { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+        .card { background: var(--surface-color); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); transition: var(--transition); }
+        .card:hover { transform: translateY(-5px); border-color: #ccd5d1; }
+        .card h3 { margin-bottom: 1rem; font-size: 1.4rem; }
+        .card p { color: var(--text-secondary); line-height: 1.6; }
+
+        /* Trust Section */
+        .trust-section { background: var(--surface-color); border-radius: 32px; padding: 4rem; margin: 4rem auto; border: 1px solid var(--border-color); }
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center; }
+        .trust-item h4 { font-size: 1rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+        .trust-item p { font-weight: 500; font-size: 1.1rem; }
+
+        /* IPHONE MOCKUP (DEMO ONLY) */
         .iphone-wrapper {
             position: relative;
-            width: 320px;
-            height: 660px;
-            margin: 0 auto;
-            background: #000;
-            border-radius: 50px;
-            padding: 12px;
+            width: 320px; height: 660px;
+            margin: 0 auto; background: #000;
+            border-radius: 50px; padding: 12px;
             box-shadow: 0 50px 100px -20px rgba(0,0,0,0.4);
             border: 4px solid #333;
         }
         .iphone-screen {
             width: 100%; height: 100%;
-            background: #fff;
-            border-radius: 38px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
+            background: #fff; border-radius: 38px;
+            overflow: hidden; position: relative;
+            display: flex; flex-direction: column;
         }
         
         /* Dynamic Island */
         .dynamic-island-container {
-            position: absolute;
-            top: 12px; left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            position: absolute; top: 12px; left: 50%;
+            transform: translateX(-50%); z-index: 100;
+            display: flex; flex-direction: column; align-items: center;
         }
         .dynamic-island {
-            width: 85px; height: 26px;
-            background: #000;
-            border-radius: 20px;
-            transition: all 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            color: white;
-            padding: 0 10px;
+            width: 85px; height: 26px; background: #000;
+            border-radius: 20px; transition: all 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; color: white; padding: 0 10px;
         }
         .dynamic-island.expanded {
-            width: 285px;
-            height: 110px;
-            border-radius: 32px;
-            flex-direction: column;
-            padding: 18px;
-            align-items: flex-start;
+            width: 285px; height: 110px; border-radius: 32px;
+            flex-direction: column; padding: 18px; align-items: flex-start;
         }
-        .island-content {
-            opacity: 0;
-            transition: opacity 0.3s;
-            display: none;
-            width: 100%;
-        }
-        .dynamic-island.expanded .island-content {
-            opacity: 1;
-            display: block;
-        }
+        .island-content { opacity: 0; transition: opacity 0.3s; display: none; width: 100%; }
+        .dynamic-island.expanded .island-content { opacity: 1; display: block; }
 
-        /* UBER EATS UI */
+        /* UBER EATS UI CLONE */
         .uber-eats { background: #fff; height: 100%; overflow-y: auto; color: #000; position: relative; }
         .uber-header { padding: 50px 15px 15px; background: #fff; border-bottom: 1px solid #eee; }
         .uber-search { background: #f3f3f3; padding: 12px 15px; border-radius: 100px; font-size: 0.85rem; color: #000; font-weight: 500; }
@@ -134,17 +119,14 @@
         .uber-name { font-weight: 700; font-size: 1rem; }
         .uber-rating { background: #eee; padding: 4px 8px; border-radius: 100px; font-size: 0.7rem; font-weight: 700; }
 
-        /* SCORE & CHAT UI */
+        /* CHAT/SCORE UI */
         .screen-content { height: 100%; display: flex; flex-direction: column; background: #fff; padding: 60px 20px 20px; }
         .score-circle { width: 170px; height: 170px; border: 12px solid #f2f5f3; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 30px auto; position: relative; }
         .score-val { font-size: 3.5rem; font-weight: 800; }
-        
-        /* Chat Style */
         .chat-container { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-top: 20px; overflow-y: auto; }
         .chat-bubble { padding: 12px 16px; border-radius: 18px; max-width: 85%; font-size: 0.85rem; line-height: 1.4; animation: bubbleIn 0.4s ease-out both; }
         .user-bubble { background: #f0f0f0; align-self: flex-end; border-bottom-right-radius: 4px; color: #000; }
         .agent-bubble { background: #151F19; color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
-        
         @keyframes bubbleIn {
             from { opacity: 0; transform: translateY(10px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
@@ -154,25 +136,25 @@
         .demo-layout { display: flex; align-items: flex-start; justify-content: center; gap: 5rem; max-width: 1100px; margin: 3rem auto; }
         .demo-text { flex: 1; max-width: 420px; }
         .step-nav { margin-top: 2rem; list-style: none; }
-        .step-nav li { 
-            padding: 1.25rem; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 1rem; cursor: pointer; transition: 0.3s;
-        }
+        .step-nav li { padding: 1.25rem; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 1rem; cursor: pointer; transition: 0.3s; }
         .step-nav li.active { border-color: var(--accent-color); background: var(--surface-color); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .step-nav li h4 { margin-bottom: 0.3rem; font-weight: 700; }
-        .step-nav li p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; }
 
-        .btn { padding: 1.2rem 2.8rem; background: var(--accent-color); color: #fff; border-radius: 100px; text-decoration: none; font-weight: 600; transition: var(--transition); border: none; cursor: pointer; }
+        .btn { padding: 1.2rem 2.8rem; background: var(--accent-color); color: #fff; border-radius: 100px; text-decoration: none; font-weight: 600; transition: var(--transition); border: none; cursor: pointer; display: inline-block; }
+        .btn:hover { opacity: 0.85; transform: scale(1.02); }
         .back-btn { background: none; border: none; font-size: 1rem; cursor: pointer; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; color: var(--text-secondary); }
 
         /* FOOTER / SUBSCRIPTION */
-        .footer { background: var(--surface-color); border-top: 1px solid var(--border-color); padding: 80px 2rem; margin-top: 100px; text-align: center; }
-        .subscribe-form { max-width: 500px; margin: 2rem auto; display: flex; gap: 10px; }
-        .subscribe-form input { flex: 1; padding: 1rem 1.5rem; border-radius: 100px; border: 1px solid var(--border-color); outline: none; }
+        .signup-container { text-align: center; padding: 100px 2rem; max-width: 600px; margin: 0 auto; }
+        .subscribe-form { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+        .subscribe-form input, .subscribe-form select { padding: 1.2rem 1.5rem; border-radius: 16px; border: 1px solid var(--border-color); outline: none; width: 100%; font-size: 1rem; background: var(--surface-color); color: var(--text-primary); }
         
+        .footer { padding: 60px 2rem; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.95rem; }
+
         @media (max-width: 900px) {
             .demo-layout { flex-direction: column; align-items: center; padding: 1rem; gap: 2rem; }
-            .iphone-wrapper { width: 300px; height: 620px; }
-            .hero h1 { font-size: 2.5rem; }
+            .hero h1 { font-size: 2.8rem; }
+            .trust-grid { grid-template-columns: 1fr; }
+            .trust-section { padding: 2rem; }
         }
     </style>
 </head>
@@ -182,44 +164,111 @@
         <div class="logo" onclick="hideDemo()">Health Agent</div>
         <div class="nav-links">
             <a onclick="showDemo()" class="demo-link">Demo</a>
-            <a href="#join">Beta</a>
+            <a href="#join">Join Beta</a>
         </div>
     </nav>
 
     <!-- MAIN PAGE -->
     <div id="main-page">
+        <!-- 1. HERO SECTION -->
         <header class="hero">
-            <h1>Better health decisions,<br>integrated into your life.</h1>
-            <p>We provide a trustworthy health signal at the exact moment you need it, built directly into the apps you already use.</p>
-            <button class="btn" onclick="showDemo()">Try Interactive Demo</button>
+            <h1>Make better health decisions, one moment at a time.</h1>
+            <p>A decision support companion that helps you understand your daily health status and make the right choices when they matter most.</p>
+            <a href="#join" class="btn">Join the Private Beta</a>
         </header>
 
-        <section class="section-padding" id="problems">
-            <h2>Why Health Agent?</h2>
+        <!-- 2. PROBLEM SECTION -->
+        <section class="section-padding">
+            <div class="section-title">
+                <h2>The Moment of Hesitation</h2>
+                <p>We all face health decisions every day, but rarely with the right signal.</p>
+            </div>
             <div class="grid">
                 <div class="card">
-                    <h3>Decision Paralysis</h3>
-                    <p>Faced with a thousand "healthy" options, we often default to the easiest choice, not the one our body actually needs.</p>
+                    <h3>Decision Blindness</h3>
+                    <p>Faced with a thousand food options on a delivery app, but not knowing which choice supports your focus for the next 4 hours.</p>
                 </div>
                 <div class="card">
-                    <h3>Siloed Data</h3>
-                    <p>Your sleep data, glucose levels, and calendar shouldn't live in separate worlds. We connect them to give you context.</p>
+                    <h3>Post-Meal Mystery</h3>
+                    <p>Eating a "healthy" meal but feeling an energy crash an hour later, without understanding the internal metabolic cost.</p>
                 </div>
                 <div class="card">
-                    <h3>Real-time Intervention</h3>
-                    <p>Tracking after the fact is useless. We help you before the decision is made, right in your delivery or grocery app.</p>
+                    <h3>Fragmented Signal</h3>
+                    <p>Using multiple wearable apps and trackers, yet still lacking a clear, single answer to "How am I doing today?"</p>
                 </div>
             </div>
         </section>
 
-        <footer class="footer" id="join">
-            <h2>Join the Private Beta</h2>
-            <p>We are rolling out slowly to maintain high quality. Reserve your spot today.</p>
-            <div class="subscribe-form">
-                <input type="email" placeholder="Enter your email address">
-                <button class="btn" style="padding: 1rem 2rem;">Join Now</button>
+        <!-- 3. SOLUTION SECTION -->
+        <section class="section-padding" style="background: rgba(255,255,255,0.4);">
+            <div class="section-title">
+                <h2>Your Personal Health Signal</h2>
             </div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 2rem;">© 2024 Health Agent. All rights reserved.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>One Daily Score</h3>
+                    <p>We synthesize your biomarkers and activity into a simple, actionable health score that evolves with your day.</p>
+                </div>
+                <div class="card">
+                    <h3>Contextual Awareness</h3>
+                    <p>Our agent provides real-time suggestions exactly when you are making a choice—not after you've already made it.</p>
+                </div>
+                <div class="card">
+                    <h3>Integrates Anywhere</h3>
+                    <p>Health Agent works alongside the tools you already use, providing a layer of intelligence over your existing health data.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. TRUST & BOUNDARIES SECTION -->
+        <section class="section-padding">
+            <div class="trust-section">
+                <div class="section-title" style="margin-bottom: 3rem;">
+                    <h2>Principles & Privacy</h2>
+                </div>
+                <div class="trust-grid">
+                    <div class="trust-item">
+                        <h4>Independence</h4>
+                        <p>Not medical advice</p>
+                    </div>
+                    <div class="trust-item">
+                        <h4>Security</h4>
+                        <p>Privacy-first architecture</p>
+                    </div>
+                    <div class="trust-item">
+                        <h4>Ownership</h4>
+                        <p>User-controlled data</p>
+                    </div>
+                    <div class="trust-item">
+                        <h4>Focus</h4>
+                        <p>Support, not judgment</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. EMAIL SIGNUP SECTION -->
+        <section class="signup-container" id="join">
+            <h2>Request Early Access</h2>
+            <p style="margin-top: 1rem; color: var(--text-secondary);">We are currently in a limited private beta. Sign up to reserve your spot.</p>
+            
+            <form class="subscribe-form" onsubmit="event.preventDefault();">
+                <input type="email" placeholder="Enter your email address" required>
+                <select required>
+                    <option value="" disabled selected>What do you care most about?</option>
+                    <option value="food">Making better food choices</option>
+                    <option value="health">Understanding my daily health</option>
+                    <option value="habits">Building healthier habits</option>
+                    <option value="all">All of the above</option>
+                </select>
+                <button type="submit" class="btn">Request Early Access</button>
+            </form>
+        </section>
+
+        <!-- 6. FOOTER -->
+        <footer class="footer">
+            <p>Built with care. Privacy-first by design.</p>
+            <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.6;">© 2024 Health Agent. All rights reserved.</p>
         </footer>
     </div>
 
@@ -245,7 +294,6 @@
                     </div>
 
                     <div class="iphone-screen">
-                        
                         <!-- STEP 1: UBER EATS CLONE -->
                         <div id="scr-1" class="uber-eats">
                             <div class="uber-header">
@@ -280,7 +328,7 @@
                             <p style="font-size:0.75rem; font-weight:700; letter-spacing:0.05em; color:#888; text-align:center; text-transform:uppercase;">Meal Analysis</p>
                             <div style="font-size:4.5rem; text-align:center; margin:30px 0;">🥗</div>
                             <h3 style="text-align:center; font-size:1.4rem;">Garden Protein Bowl</h3>
-                            <p style="text-align:center; color:#666; font-size:0.9rem; padding:0 10px; line-height:1.4;">Identified: Kale, Quinoa, Chickpeas. Rich in high fiber and healthy fats.</p>
+                            <p style="text-align:center; color:#666; font-size:0.9rem; padding:0 10px; line-height:1.4;">Identified: Kale, Quinoa, Chickpeas. High in fiber and stable energy.</p>
                             <div style="margin-top:auto; background:#f9f9f9; padding:20px; border-radius:24px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center;">
                                     <span style="font-size:0.85rem; font-weight:600;">Glucose Impact</span>
@@ -299,7 +347,7 @@
                                 <span style="color:#2F5E4E; font-weight:700; font-size:0.9rem; margin-top:5px;">+8 Points</span>
                             </div>
                             <p style="text-align:center; font-size:0.9rem; color:#555; padding:0 10px; line-height:1.5;">
-                                "Choosing the salad stabilized your metabolism, supporting your mental energy for the rest of the day."
+                                "Choosing the salad stabilized your metabolism, supporting your mental focus."
                             </p>
                             <button class="btn" onclick="nextStep(4)" style="margin-top:auto; width:100%; font-size:0.9rem; padding:12px; background:#151F19;">Why did my score go up?</button>
                         </div>
@@ -310,17 +358,12 @@
                                 <div style="width:32px; height:32px; background:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:0.7rem; font-weight:bold;">HA</div>
                                 <span style="font-weight:700; font-size:0.95rem;">Health Agent</span>
                             </div>
-                            
-                            <div class="chat-container" id="chat-box">
-                                <!-- AI Messages injected here -->
-                            </div>
-                            
+                            <div class="chat-container" id="chat-box"></div>
                             <div style="margin-top:auto; background:#f5f5f5; padding:12px; border-radius:100px; display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-size:0.8rem; color:#888; margin-left:10px;">Ask a follow-up...</span>
                                 <div style="width:28px; height:28px; background:#ddd; border-radius:50%;"></div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -328,7 +371,6 @@
                 <div class="demo-text">
                     <h2 style="font-size:2rem; margin-bottom:1rem;">Interactive Demo</h2>
                     <p>Experience how Health Agent acts as your digital health companion.</p>
-                    
                     <ul class="step-nav">
                         <li id="nav-1" class="active" onclick="jumpTo(1)">
                             <h4>01. The Decision Moment</h4>
@@ -374,8 +416,7 @@
         }
 
         function triggerIsland() {
-            const island = document.getElementById('island');
-            island.classList.add('expanded');
+            document.getElementById('island').classList.add('expanded');
         }
 
         function nextStep(step) {
@@ -383,38 +424,29 @@
         }
 
         function jumpTo(step) {
-            // Screen handling
             for(let i=1; i<=4; i++) {
                 document.getElementById('scr-' + i).style.display = 'none';
                 document.getElementById('nav-' + i).classList.remove('active');
             }
-            
             const target = document.getElementById('scr-' + step);
             target.style.display = (step === 1) ? 'block' : 'flex';
             document.getElementById('nav-' + step).classList.add('active');
+            document.getElementById('island').classList.remove('expanded');
 
-            // Reset Island
-            const island = document.getElementById('island');
-            island.classList.remove('expanded');
-
-            if(step === 4) {
-                runChatAnimation();
-            }
+            if(step === 4) runChatAnimation();
         }
 
         function runChatAnimation() {
             const chatBox = document.getElementById('chat-box');
             chatBox.innerHTML = ''; 
-            
             const messages = [
                 { role: 'user', text: 'Why did my score improve today?' },
                 { role: 'agent', text: 'That lunch was high in fiber and healthy fats, which slowed down carb absorption.' },
-                { role: 'agent', text: 'This prevented a glucose spike, extending your deep work window by roughly 2 hours compared to a burger.' },
+                { role: 'agent', text: 'This prevented a glucose spike, extending your focus window by roughly 2 hours.' },
                 { role: 'agent', text: "💡 Tip: Since your metabolism is stable, a 10-min walk now would be perfect to peak your energy." }
             ];
-
             let delay = 500;
-            messages.forEach((msg, index) => {
+            messages.forEach((msg) => {
                 setTimeout(() => {
                     const bubble = document.createElement('div');
                     bubble.className = `chat-bubble ${msg.role}-bubble`;

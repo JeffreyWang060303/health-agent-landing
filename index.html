@@ -3,38 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Agent - Early Access</title>
-    <meta name="description" content="Make better health decisions, one moment at a time. Join the private beta.">
-    
+    <title>Health Agent — Decision Support for Your Wellbeing</title>
     <style>
         :root {
             --bg-color: #F2F5F3; 
-            --text-primary: #151F19;
+            --text-primary: #151F19; 
             --text-secondary: #58665E; 
-            --text-tertiary: #8C9991;
-            
             --accent-color: #000000; 
-            --accent-hover: #222222;
-            
             --surface-color: #FFFFFF; 
             --border-color: #E0E6E3;
-            --input-bg: #FFFFFF;
-            --focus-ring: rgba(0, 0, 0, 0.1);
-            
-            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 1rem;
-            --spacing-md: 2rem;
-            --spacing-lg: 4rem;
-            --spacing-xl: 8rem;
-            
-            --radius-sm: 4px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            
-            --container-width: 1000px;
-            --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @media (prefers-color-scheme: dark) {
@@ -42,408 +21,410 @@
                 --bg-color: #0E1411; 
                 --text-primary: #EDF2F0;
                 --text-secondary: #A0B0A8;
-                --text-tertiary: #607068;
-                --accent-color: #FFFFFF; 
-                --accent-hover: #E0E0E0;
                 --surface-color: #17211C; 
                 --border-color: #26332D;
-                --input-bg: #17211C;
-                --focus-ring: rgba(255, 255, 255, 0.15);
             }
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-stack); background-color: var(--bg-color); color: var(--text-primary); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-        body {
-            font-family: var(--font-stack);
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        /* 字体排版 */
-        h1, h2, h3 {
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        h2 {
-            font-size: clamp(1.75rem, 3vw, 2.5rem);
-            margin-bottom: var(--spacing-md);
-            text-align: center;
-        }
-
-        h3 {
-            font-size: 1.25rem;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        p {
-            font-size: 1.0625rem;
-            color: var(--text-secondary);
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        /* 布局工具 */
-        .container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 var(--spacing-md);
-        }
-
-        section {
-            padding: var(--spacing-xl) 0;
-        }
-
-        /* 组件 */
-        .btn {
-            display: inline-flex;
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            padding: 1rem 2.25rem;
-            background-color: var(--accent-color); 
-            color: var(--bg-color); /* 黑色背景配浅色文字 */
-            border-radius: var(--radius-md);
-            font-weight: 500;
-            font-size: 1rem;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+            background: rgba(242, 245, 243, 0.8);
+            backdrop-filter: blur(10px);
         }
+        .logo { font-weight: 700; font-size: 1.2rem; cursor: pointer; }
+        .nav-links a { text-decoration: none; color: var(--text-primary); font-weight: 500; margin-left: 2rem; transition: 0.3s; cursor: pointer; }
+        .nav-links a.demo-link { background: var(--accent-color); color: #fff; padding: 0.6rem 1.2rem; border-radius: 100px; }
 
-        .btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        /* Sections Visibility Control */
+        #main-page, #demo-page { transition: opacity 0.5s ease; }
+        #demo-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-color); z-index: 1000; padding: 2rem; overflow-y: auto; }
+
+        /* MAIN PAGE */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 1rem; }
+        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); letter-spacing: -0.04em; margin-bottom: 1.5rem; line-height: 1.1; }
+        .hero p { font-size: 1.4rem; color: var(--text-secondary); max-width: 650px; margin-bottom: 2.5rem; }
+        
+        .section-padding { padding: 100px 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
+        .card { background: var(--surface-color); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); text-align: left; }
+        
+        /* IPHONE MOCKUP */
+        .iphone-wrapper {
+            position: relative;
+            width: 320px;
+            height: 660px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.4);
+            border: 4px solid #333;
         }
-
-        .card {
-            background-color: var(--surface-color);
-            padding: var(--spacing-md);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-            height: 100%;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-        }
-
-        .card:hover {
-            border-color: var(--text-tertiary);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-        }
-
-        /* 英雄区 */
-        .hero {
-            min-height: 80vh;
+        .iphone-screen {
+            width: 100%; height: 100%;
+            background: #fff;
+            border-radius: 38px;
+            overflow: hidden;
+            position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding-top: var(--spacing-xl);
-        }
-
-        .hero-content {
-            max-width: 680px;
-        }
-
-        .hero-sub {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-md);
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-md);
-        }
-
-        .problem-icon {
-            font-size: 1.5rem;
-            margin-bottom: var(--spacing-sm);
-            opacity: 0.8;
-            filter: saturate(0.8);
-        }
-
-        .solution-section {
-            background: linear-gradient(to bottom, var(--bg-color), rgba(255,255,255,0.4) 50%, var(--bg-color));
         }
         
-        @media (prefers-color-scheme: dark) {
-            .solution-section {
-                background: linear-gradient(to bottom, var(--bg-color), rgba(255,255,255,0.02) 50%, var(--bg-color));
-            }
-        }
-
-        .feature-list {
-            list-style: none;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .feature-item {
+        /* Dynamic Island */
+        .dynamic-island-container {
+            position: absolute;
+            top: 12px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .dynamic-island {
+            width: 85px; height: 26px;
+            background: #000;
+            border-radius: 20px;
+            transition: all 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: white;
+            padding: 0 10px;
+        }
+        .dynamic-island.expanded {
+            width: 285px;
+            height: 110px;
+            border-radius: 32px;
+            flex-direction: column;
+            padding: 18px;
             align-items: flex-start;
-            margin-bottom: var(--spacing-md);
-            padding: var(--spacing-md);
-            border-bottom: 1px solid var(--border-color);
         }
-
-        .feature-item:last-child {
-            border-bottom: none;
-        }
-
-        .feature-number {
-            font-family: monospace;
-            color: var(--text-primary);
-            margin-right: var(--spacing-md);
-            font-size: 0.9rem;
-            padding-top: 0.2rem;
-            font-weight: 600;
-        }
-
-        .trust-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--spacing-sm);
-            max-width: 600px;
-            margin: var(--spacing-md) auto 0;
-        }
-
-        .trust-badge {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            padding: var(--spacing-sm);
-            background: var(--surface-color);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .signup-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .signup-form {
-            width: 100%;
-            max-width: 400px;
-            margin-top: var(--spacing-md);
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-
-        label {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.4rem;
-            font-weight: 500;
-        }
-
-        input[type="email"], select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            background-color: var(--input-bg);
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-family: inherit;
-            transition: var(--transition);
-            appearance: none;
-        }
-
-        select {
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2358665E%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 0.65em auto;
-        }
-
-        input[type="email"]:focus, select:focus {
-            outline: none;
-            border-color: var(--text-primary);
-            box-shadow: 0 0 0 4px var(--focus-ring);
-        }
-
-        footer {
-            padding: var(--spacing-lg) 0;
-            text-align: center;
-            font-size: 0.875rem;
-            color: var(--text-tertiary);
-            border-top: 1px solid var(--border-color);
-            margin-top: var(--spacing-xl);
-        }
-
-        /* 动画 */
-        .fade-in-up {
+        .island-content {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: opacity 0.3s;
+            display: none;
+            width: 100%;
         }
-
-        .fade-in-up.visible {
+        .dynamic-island.expanded .island-content {
             opacity: 1;
-            transform: translateY(0);
+            display: block;
         }
 
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
+        /* UBER EATS UI */
+        .uber-eats { background: #fff; height: 100%; overflow-y: auto; color: #000; position: relative; }
+        .uber-header { padding: 50px 15px 15px; background: #fff; border-bottom: 1px solid #eee; }
+        .uber-search { background: #f3f3f3; padding: 12px 15px; border-radius: 100px; font-size: 0.85rem; color: #000; font-weight: 500; }
+        .uber-categories { display: flex; gap: 20px; padding: 20px 15px; overflow-x: auto; scrollbar-width: none; }
+        .uber-cat { text-align: center; min-width: 55px; font-size: 0.7rem; font-weight: 600; }
+        .uber-cat div { width: 55px; height: 55px; background: #f6f6f6; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+        .uber-restaurant { padding: 0 15px 25px; cursor: pointer; }
+        .uber-img { width: 100%; height: 160px; background: #f0f0f0; border-radius: 4px; background-size: cover; background-position: center; }
+        .uber-info { display: flex; justify-content: space-between; margin-top: 12px; }
+        .uber-name { font-weight: 700; font-size: 1rem; }
+        .uber-rating { background: #eee; padding: 4px 8px; border-radius: 100px; font-size: 0.7rem; font-weight: 700; }
 
-        @media (max-width: 768px) {
-            .trust-grid {
-                grid-template-columns: 1fr;
-            }
+        /* SCORE & CHAT UI */
+        .screen-content { height: 100%; display: flex; flex-direction: column; background: #fff; padding: 60px 20px 20px; }
+        .score-circle { width: 170px; height: 170px; border: 12px solid #f2f5f3; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 30px auto; position: relative; }
+        .score-val { font-size: 3.5rem; font-weight: 800; }
+        
+        /* Chat Style */
+        .chat-container { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-top: 20px; overflow-y: auto; }
+        .chat-bubble { padding: 12px 16px; border-radius: 18px; max-width: 85%; font-size: 0.85rem; line-height: 1.4; animation: bubbleIn 0.4s ease-out both; }
+        .user-bubble { background: #f0f0f0; align-self: flex-end; border-bottom-right-radius: 4px; color: #000; }
+        .agent-bubble { background: #151F19; color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
+        
+        @keyframes bubbleIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* DEMO LAYOUT */
+        .demo-layout { display: flex; align-items: flex-start; justify-content: center; gap: 5rem; max-width: 1100px; margin: 3rem auto; }
+        .demo-text { flex: 1; max-width: 420px; }
+        .step-nav { margin-top: 2rem; list-style: none; }
+        .step-nav li { 
+            padding: 1.25rem; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 1rem; cursor: pointer; transition: 0.3s;
+        }
+        .step-nav li.active { border-color: var(--accent-color); background: var(--surface-color); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .step-nav li h4 { margin-bottom: 0.3rem; font-weight: 700; }
+        .step-nav li p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; }
+
+        .btn { padding: 1.2rem 2.8rem; background: var(--accent-color); color: #fff; border-radius: 100px; text-decoration: none; font-weight: 600; transition: var(--transition); border: none; cursor: pointer; }
+        .back-btn { background: none; border: none; font-size: 1rem; cursor: pointer; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; color: var(--text-secondary); }
+
+        /* FOOTER / SUBSCRIPTION */
+        .footer { background: var(--surface-color); border-top: 1px solid var(--border-color); padding: 80px 2rem; margin-top: 100px; text-align: center; }
+        .subscribe-form { max-width: 500px; margin: 2rem auto; display: flex; gap: 10px; }
+        .subscribe-form input { flex: 1; padding: 1rem 1.5rem; border-radius: 100px; border: 1px solid var(--border-color); outline: none; }
+        
+        @media (max-width: 900px) {
+            .demo-layout { flex-direction: column; align-items: center; padding: 1rem; gap: 2rem; }
+            .iphone-wrapper { width: 300px; height: 620px; }
+            .hero h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <header class="container hero">
-        <div class="hero-content">
-            <h1 class="fade-in-up">Make better health decisions, one moment at a time.</h1>
-            <p class="hero-sub fade-in-up delay-1">Understanding your daily health shouldn't be a full-time job. Get clarity and guidance when it matters most.</p>
-            <a href="#join-beta" class="btn fade-in-up delay-2">Join the Private Beta</a>
+    <nav>
+        <div class="logo" onclick="hideDemo()">Health Agent</div>
+        <div class="nav-links">
+            <a onclick="showDemo()" class="demo-link">Demo</a>
+            <a href="#join">Beta</a>
         </div>
-    </header>
+    </nav>
 
-    <section class="container problem-section">
-        <h2 class="fade-in-up">The modern health dilemma.</h2>
-        <div class="grid">
-            <div class="card fade-in-up delay-1">
-                <div class="problem-icon">🍽️</div>
-                <h3>The Decision Paralysis</h3>
-                <p>You're staring at a menu or a grocery shelf, overwhelmed by options, unsure which choice actually aligns with your goals today.</p>
-            </div>
-            <div class="card fade-in-up delay-2">
-                <div class="problem-icon">📉</div>
-                <h3>The Missing Link</h3>
-                <p>You eat well and exercise, but still feel off. The connection between your daily actions and how you feel remains a mystery.</p>
-            </div>
-            <div class="card fade-in-up delay-3">
-                <div class="problem-icon">🔔</div>
-                <h3>The Signal in the Noise</h3>
-                <p>Dozens of apps tracking calories, steps, and sleep, but none of them tell you what to actually <em>do</em> next.</p>
-            </div>
-        </div>
-    </section>
+    <!-- MAIN PAGE -->
+    <div id="main-page">
+        <header class="hero">
+            <h1>Better health decisions,<br>integrated into your life.</h1>
+            <p>We provide a trustworthy health signal at the exact moment you need it, built directly into the apps you already use.</p>
+            <button class="btn" onclick="showDemo()">Try Interactive Demo</button>
+        </header>
 
-    <section class="solution-section">
-        <div class="container">
-            <div class="feature-list">
-                <div class="feature-item fade-in-up">
-                    <span class="feature-number">01</span>
-                    <div>
-                        <h3>A simple daily score</h3>
-                        <p>We distill complex metrics into a single, understandable signal that helps you gauge your capacity for the day.</p>
-                    </div>
+        <section class="section-padding" id="problems">
+            <h2>Why Health Agent?</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Decision Paralysis</h3>
+                    <p>Faced with a thousand "healthy" options, we often default to the easiest choice, not the one our body actually needs.</p>
                 </div>
-                <div class="feature-item fade-in-up">
-                    <span class="feature-number">02</span>
-                    <div>
-                        <h3>Context when it matters</h3>
-                        <p>Receive gentle, context-aware suggestions exactly when you are making decisions, not hours later when it's too late.</p>
-                    </div>
+                <div class="card">
+                    <h3>Siloed Data</h3>
+                    <p>Your sleep data, glucose levels, and calendar shouldn't live in separate worlds. We connect them to give you context.</p>
                 </div>
-                <div class="feature-item fade-in-up">
-                    <span class="feature-number">03</span>
-                    <div>
-                        <h3>Harmony with your tools</h3>
-                        <p>We don't replace your favorite trackers; we make sense of them. Works quietly alongside the tools you already use.</p>
-                    </div>
+                <div class="card">
+                    <h3>Real-time Intervention</h3>
+                    <p>Tracking after the fact is useless. We help you before the decision is made, right in your delivery or grocery app.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="container signup-section">
-        <h2 class="fade-in-up">Built on trust, not judgment.</h2>
-        <p class="fade-in-up delay-1" style="max-width: 600px; margin: 0 auto; text-align: center;">
-            We believe technology should support human autonomy, not dictate it. Your data belongs to you, and our incentives are aligned with your wellbeing.
-        </p>
-        <div class="trust-grid fade-in-up delay-2">
-            <div class="trust-badge">Privacy-first architecture</div>
-            <div class="trust-badge">Not medical advice</div>
-            <div class="trust-badge">User-controlled data</div>
-            <div class="trust-badge">Supportive, never nagging</div>
-        </div>
-    </section>
-
-    <section id="join-beta" class="container signup-section">
-        <h2 class="fade-in-up">Join the private beta.</h2>
-        <form class="signup-form fade-in-up delay-2" onsubmit="event.preventDefault();">
-            <div class="input-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="you@example.com" required>
+        <footer class="footer" id="join">
+            <h2>Join the Private Beta</h2>
+            <p>We are rolling out slowly to maintain high quality. Reserve your spot today.</p>
+            <div class="subscribe-form">
+                <input type="email" placeholder="Enter your email address">
+                <button class="btn" style="padding: 1rem 2rem;">Join Now</button>
             </div>
-            <div class="input-group">
-                <label for="interest">What do you care most about?</label>
-                <select id="interest">
-                    <option value="choices">Making better food choices</option>
-                    <option value="daily">Understanding my daily health</option>
-                    <option value="habits">Building healthier habits</option>
-                    <option value="all">All of the above</option>
-                </select>
-            </div>
-            <button type="submit" class="btn">Request Early Access</button>
-        </form>
-    </section>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 2rem;">© 2024 Health Agent. All rights reserved.</p>
+        </footer>
+    </div>
 
-    <footer class="container">
-        <p>Built with care. Privacy-first by design.</p>
-        <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.6;">&copy; 2024 Health Agent. All rights reserved.</p>
-    </footer>
+    <!-- DEMO PAGE -->
+    <div id="demo-page">
+        <div class="container" style="max-width: 1200px; margin: 0 auto;">
+            <button class="back-btn" onclick="hideDemo()">← Exit Demo</button>
+            
+            <div class="demo-layout">
+                <!-- Phone Side -->
+                <div class="iphone-wrapper">
+                    <div class="dynamic-island-container">
+                        <div class="dynamic-island" id="island">
+                            <div class="island-content" id="island-text">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                    <span style="font-weight:800; font-size:0.75rem;">Health Agent</span>
+                                    <span style="opacity:0.6; font-size:0.65rem;">Now</span>
+                                </div>
+                                <p style="font-size:0.75rem; line-height:1.3; margin-bottom:12px;">Based on your poor sleep last night, a salad is better for your 2PM focus.</p>
+                                <button onclick="nextStep(2)" style="width:100%; background:#fff; color:#000; border:none; padding:7px; border-radius:10px; font-size:0.75rem; font-weight:800; cursor:pointer;">Switch to Salad</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="iphone-screen">
+                        
+                        <!-- STEP 1: UBER EATS CLONE -->
+                        <div id="scr-1" class="uber-eats">
+                            <div class="uber-header">
+                                <div class="uber-search">📍 Deliver to Office</div>
+                                <div class="uber-categories">
+                                    <div class="uber-cat"><div>🍔</div>Burger</div>
+                                    <div class="uber-cat"><div>🥗</div>Salad</div>
+                                    <div class="uber-cat"><div>🍣</div>Sushi</div>
+                                    <div class="uber-cat"><div>🍕</div>Pizza</div>
+                                </div>
+                            </div>
+                            <div class="uber-restaurant" onclick="triggerIsland()">
+                                <div class="uber-img" style="background-image:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80')"></div>
+                                <div class="uber-info">
+                                    <div class="uber-name">The Burger House</div>
+                                    <div class="uber-rating">4.8 (500+)</div>
+                                </div>
+                                <p style="font-size:0.75rem; color:#666; margin-top:4px;">$ • American • Comfort</p>
+                            </div>
+                            <div class="uber-restaurant">
+                                <div class="uber-img" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80')"></div>
+                                <div class="uber-info">
+                                    <div class="uber-name">Green Leaf Salads</div>
+                                    <div class="uber-rating">4.9 (1k+)</div>
+                                </div>
+                                <p style="font-size:0.75rem; color:#666; margin-top:4px;">$ • Healthy • Bowls</p>
+                            </div>
+                        </div>
+
+                        <!-- STEP 2: ANALYSIS -->
+                        <div id="scr-2" class="screen-content" style="display:none;">
+                            <p style="font-size:0.75rem; font-weight:700; letter-spacing:0.05em; color:#888; text-align:center; text-transform:uppercase;">Meal Analysis</p>
+                            <div style="font-size:4.5rem; text-align:center; margin:30px 0;">🥗</div>
+                            <h3 style="text-align:center; font-size:1.4rem;">Garden Protein Bowl</h3>
+                            <p style="text-align:center; color:#666; font-size:0.9rem; padding:0 10px; line-height:1.4;">Identified: Kale, Quinoa, Chickpeas. Rich in high fiber and healthy fats.</p>
+                            <div style="margin-top:auto; background:#f9f9f9; padding:20px; border-radius:24px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <span style="font-size:0.85rem; font-weight:600;">Glucose Impact</span>
+                                    <span style="font-size:1rem; font-weight:700; color:#2F5E4E;">Minimal Spike</span>
+                                </div>
+                                <button class="btn" onclick="nextStep(3)" style="width:100%; margin-top:15px; font-size:0.9rem; padding:12px;">View My Progress</button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: DAILY SCORE -->
+                        <div id="scr-3" class="screen-content" style="display:none;">
+                            <p style="font-weight:700; text-align:center; font-size:0.85rem;">Daily Health Score</p>
+                            <div class="score-circle">
+                                <span style="font-size:0.8rem; color:#888;">Score</span>
+                                <span class="score-val">84</span>
+                                <span style="color:#2F5E4E; font-weight:700; font-size:0.9rem; margin-top:5px;">+8 Points</span>
+                            </div>
+                            <p style="text-align:center; font-size:0.9rem; color:#555; padding:0 10px; line-height:1.5;">
+                                "Choosing the salad stabilized your metabolism, supporting your mental energy for the rest of the day."
+                            </p>
+                            <button class="btn" onclick="nextStep(4)" style="margin-top:auto; width:100%; font-size:0.9rem; padding:12px; background:#151F19;">Why did my score go up?</button>
+                        </div>
+
+                        <!-- STEP 4: CONTEXTUAL GUIDANCE (CHAT) -->
+                        <div id="scr-4" class="screen-content" style="display:none;">
+                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                                <div style="width:32px; height:32px; background:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:0.7rem; font-weight:bold;">HA</div>
+                                <span style="font-weight:700; font-size:0.95rem;">Health Agent</span>
+                            </div>
+                            
+                            <div class="chat-container" id="chat-box">
+                                <!-- AI Messages injected here -->
+                            </div>
+                            
+                            <div style="margin-top:auto; background:#f5f5f5; padding:12px; border-radius:100px; display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:0.8rem; color:#888; margin-left:10px;">Ask a follow-up...</span>
+                                <div style="width:28px; height:28px; background:#ddd; border-radius:50%;"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="demo-text">
+                    <h2 style="font-size:2rem; margin-bottom:1rem;">Interactive Demo</h2>
+                    <p>Experience how Health Agent acts as your digital health companion.</p>
+                    
+                    <ul class="step-nav">
+                        <li id="nav-1" class="active" onclick="jumpTo(1)">
+                            <h4>01. The Decision Moment</h4>
+                            <p>Health Agent intervenes via Dynamic Island when you're about to make a choice in Uber Eats.</p>
+                        </li>
+                        <li id="nav-2" onclick="jumpTo(2)">
+                            <h4>02. Intelligent Insight</h4>
+                            <p>No manual logging. We analyze ingredients and predict energy impact automatically.</p>
+                        </li>
+                        <li id="nav-3" onclick="jumpTo(3)">
+                            <h4>03. Holistic Scoring</h4>
+                            <p>Complex biomarkers are simplified into a single, actionable daily health signal.</p>
+                        </li>
+                        <li id="nav-4" onclick="jumpTo(4)">
+                            <h4>04. Contextual Guidance</h4>
+                            <p>Chat with your agent to understand the "Why" behind your data and get personalized improvements.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
+        function showDemo() {
+            document.getElementById('main-page').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('main-page').style.display = 'none';
+                document.getElementById('demo-page').style.display = 'block';
+                document.getElementById('demo-page').style.opacity = '1';
+                window.scrollTo(0,0);
+            }, 500);
+        }
 
-            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-        });
+        function hideDemo() {
+            document.getElementById('demo-page').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('demo-page').style.display = 'none';
+                document.getElementById('main-page').style.display = 'block';
+                document.getElementById('main-page').style.opacity = '1';
+                jumpTo(1); 
+            }, 500);
+        }
+
+        function triggerIsland() {
+            const island = document.getElementById('island');
+            island.classList.add('expanded');
+        }
+
+        function nextStep(step) {
+            jumpTo(step);
+        }
+
+        function jumpTo(step) {
+            // Screen handling
+            for(let i=1; i<=4; i++) {
+                document.getElementById('scr-' + i).style.display = 'none';
+                document.getElementById('nav-' + i).classList.remove('active');
+            }
+            
+            const target = document.getElementById('scr-' + step);
+            target.style.display = (step === 1) ? 'block' : 'flex';
+            document.getElementById('nav-' + step).classList.add('active');
+
+            // Reset Island
+            const island = document.getElementById('island');
+            island.classList.remove('expanded');
+
+            if(step === 4) {
+                runChatAnimation();
+            }
+        }
+
+        function runChatAnimation() {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML = ''; 
+            
+            const messages = [
+                { role: 'user', text: 'Why did my score improve today?' },
+                { role: 'agent', text: 'That lunch was high in fiber and healthy fats, which slowed down carb absorption.' },
+                { role: 'agent', text: 'This prevented a glucose spike, extending your deep work window by roughly 2 hours compared to a burger.' },
+                { role: 'agent', text: "💡 Tip: Since your metabolism is stable, a 10-min walk now would be perfect to peak your energy." }
+            ];
+
+            let delay = 500;
+            messages.forEach((msg, index) => {
+                setTimeout(() => {
+                    const bubble = document.createElement('div');
+                    bubble.className = `chat-bubble ${msg.role}-bubble`;
+                    bubble.innerText = msg.text;
+                    chatBox.appendChild(bubble);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, delay);
+                delay += 1400;
+            });
+        }
     </script>
 </body>
 </html>

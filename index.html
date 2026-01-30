@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Agent - Early Access</title>
+    <meta name="description" content="Make better health decisions, one moment at a time. Join the private beta.">
+    
+    <style>
+        /* CSS 变量与重置 */
+        :root {
+            /* 保持极简的高级感浅绿色背景 */
+            --bg-color: #F2F5F3; 
+            --text-primary: #151F19; /* 深森林绿，接近黑 */
+            --text-secondary: #58665E; 
+            --text-tertiary: #8C9991;
+            
+            /* 按钮调整为黑色 */
+            --accent-color: #000000; 
+            --accent-hover: #222222;
+            
+            --surface-color: #FFFFFF; 
+            --border-color: #E0E6E3;
+            --input-bg: #FFFFFF;
+            --focus-ring: rgba(0, 0, 0, 0.1);
+            
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 8rem;
+            
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            
+            --container-width: 1000px;
+            --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #0E1411; 
+                --text-primary: #EDF2F0;
+                --text-secondary: #A0B0A8;
+                --text-tertiary: #607068;
+                --accent-color: #FFFFFF; 
+                --accent-hover: #E0E0E0;
+                --surface-color: #17211C; 
+                --border-color: #26332D;
+                --input-bg: #17211C;
+                --focus-ring: rgba(255, 255, 255, 0.15);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* 字体排版 */
+        h1, h2, h3 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        h2 {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        p {
+            font-size: 1.0625rem;
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        /* 布局工具 */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        section {
+            padding: var(--spacing-xl) 0;
+        }
+
+        /* 组件 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.25rem;
+            background-color: var(--accent-color); 
+            color: var(--bg-color); /* 黑色背景配浅色文字 */
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            height: 100%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        .card:hover {
+            border-color: var(--text-tertiary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 英雄区 */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--spacing-xl);
+        }
+
+        .hero-content {
+            max-width: 680px;
+        }
+
+        .hero-sub {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .problem-icon {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-sm);
+            opacity: 0.8;
+            filter: saturate(0.8);
+        }
+
+        .solution-section {
+            background: linear-gradient(to bottom, var(--bg-color), rgba(255,255,255,0.4) 50%, var(--bg-color));
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .solution-section {
+                background: linear-gradient(to bottom, var(--bg-color), rgba(255,255,255,0.02) 50%, var(--bg-color));
+            }
+        }
+
+        .feature-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-number {
+            font-family: monospace;
+            color: var(--text-primary);
+            margin-right: var(--spacing-md);
+            font-size: 0.9rem;
+            padding-top: 0.2rem;
+            font-weight: 600;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+            max-width: 600px;
+            margin: var(--spacing-md) auto 0;
+        }
+
+        .trust-badge {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            padding: var(--spacing-sm);
+            background: var(--surface-color);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .signup-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .signup-form {
+            width: 100%;
+            max-width: 400px;
+            margin-top: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        input[type="email"], select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2358665E%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.65em auto;
+        }
+
+        input[type="email"]:focus, select:focus {
+            outline: none;
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 4px var(--focus-ring);
+        }
+
+        footer {
+            padding: var(--spacing-lg) 0;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            border-top: 1px solid var(--border-color);
+            margin-top: var(--spacing-xl);
+        }
+
+        /* 动画 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        @media (max-width: 768px) {
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="container hero">
+        <div class="hero-content">
+            <h1 class="fade-in-up">Make better health decisions, one moment at a time.</h1>
+            <p class="hero-sub fade-in-up delay-1">Understanding your daily health shouldn't be a full-time job. Get clarity and guidance when it matters most.</p>
+            <a href="#join-beta" class="btn fade-in-up delay-2">Join the Private Beta</a>
+        </div>
+    </header>
+
+    <section class="container problem-section">
+        <h2 class="fade-in-up">The modern health dilemma.</h2>
+        <div class="grid">
+            <div class="card fade-in-up delay-1">
+                <div class="problem-icon">🍽️</div>
+                <h3>The Decision Paralysis</h3>
+                <p>You're staring at a menu or a grocery shelf, overwhelmed by options, unsure which choice actually aligns with your goals today.</p>
+            </div>
+            <div class="card fade-in-up delay-2">
+                <div class="problem-icon">📉</div>
+                <h3>The Missing Link</h3>
+                <p>You eat well and exercise, but still feel off. The connection between your daily actions and how you feel remains a mystery.</p>
+            </div>
+            <div class="card fade-in-up delay-3">
+                <div class="problem-icon">🔔</div>
+                <h3>The Signal in the Noise</h3>
+                <p>Dozens of apps tracking calories, steps, and sleep, but none of them tell you what to actually <em>do</em> next.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution-section">
+        <div class="container">
+            <div class="feature-list">
+                <div class="feature-item fade-in-up">
+                    <span class="feature-number">01</span>
+                    <div>
+                        <h3>A simple daily score</h3>
+                        <p>We distill complex metrics into a single, understandable signal that helps you gauge your capacity for the day.</p>
+                    </div>
+                </div>
+                <div class="feature-item fade-in-up">
+                    <span class="feature-number">02</span>
+                    <div>
+                        <h3>Context when it matters</h3>
+                        <p>Receive gentle, context-aware suggestions exactly when you are making decisions, not hours later when it's too late.</p>
+                    </div>
+                </div>
+                <div class="feature-item fade-in-up">
+                    <span class="feature-number">03</span>
+                    <div>
+                        <h3>Harmony with your tools</h3>
+                        <p>We don't replace your favorite trackers; we make sense of them. Works quietly alongside the tools you already use.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container signup-section">
+        <h2 class="fade-in-up">Built on trust, not judgment.</h2>
+        <p class="fade-in-up delay-1" style="max-width: 600px; margin: 0 auto; text-align: center;">
+            We believe technology should support human autonomy, not dictate it. Your data belongs to you, and our incentives are aligned with your wellbeing.
+        </p>
+        <div class="trust-grid fade-in-up delay-2">
+            <div class="trust-badge">Privacy-first architecture</div>
+            <div class="trust-badge">Not medical advice</div>
+            <div class="trust-badge">User-controlled data</div>
+            <div class="trust-badge">Supportive, never nagging</div>
+        </div>
+    </section>
+
+    <section id="join-beta" class="container signup-section">
+        <h2 class="fade-in-up">Join the private beta.</h2>
+        <form class="signup-form fade-in-up delay-2" onsubmit="event.preventDefault();">
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="you@example.com" required>
+            </div>
+            <div class="input-group">
+                <label for="interest">What do you care most about?</label>
+                <select id="interest">
+                    <option value="choices">Making better food choices</option>
+                    <option value="daily">Understanding my daily health</option>
+                    <option value="habits">Building healthier habits</option>
+                    <option value="all">All of the above</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Request Early Access</button>
+        </form>
+    </section>
+
+    <footer class="container">
+        <p>Built with care. Privacy-first by design.</p>
+        <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.6;">&copy; 2024 Health Agent. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

@@ -12,8 +12,3 @@ Health Agent delivers a trustworthy health signal at the exact moment you need i
 - **Intelligent insight** — Analyzes ingredients and predicts energy impact automatically, without manual logging
 - **Holistic health score** — Turns complex biomarkers into a single, actionable daily signal
 - **Contextual guidance** — Chat with the agent to understand the "why" behind your data and get personalized tips
-
-## Tech
-
-- Vanilla HTML, CSS, and JavaScript
-- Responsive design with dark mode support
